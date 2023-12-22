@@ -3,6 +3,8 @@ import { styled } from "@mui/system";
 import Event from "./Event";
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
+import { saveAs } from "file-saver";
+import { txtGenerator } from "../Utils/DateTimeUtil";
 
 const ICSGenerator = () => {
   const [events, setEvents] = useState([
@@ -49,6 +51,15 @@ const ICSGenerator = () => {
     );
   };
 
+  const fileDownloader = () => {
+    var icsData = txtGenerator(events);
+    // Create a Blob object from the iCalendar data
+    const blob = new Blob([icsData], { type: "text/calendar;charset=utf-8" });
+
+    // Save the .ics file to the browser
+    saveAs(blob, "holidays.ics");
+  };
+
   return (
     <>
       <ResponsiveContainer>
@@ -68,8 +79,10 @@ const ICSGenerator = () => {
           </div>
         ))}
       </ResponsiveContainer>
-
+      <br />
       <Button onClick={handleAddComponent}>Add </Button>
+
+      <Button onClick={fileDownloader}>Save </Button>
     </>
   );
 };
