@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-
 import { styled } from "@mui/system";
 import Event from "./Event";
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
 
 const ICSGenerator = () => {
-  const [inputList, setInputList] = useState([<Event key={0} id={0} />]);
+  const [events, setEvents] = useState([
+    { id: 0, eventName: "", eventDesc: "", eventDate: dayjs() },
+  ]);
+  const [focusedInput, setFocusedInput] = useState(null);
+  const [focusedItem, setFocusedItem] = useState(null);
 
   const ResponsiveContainer = styled("div")({
     display: "flex",
@@ -25,22 +28,44 @@ const ICSGenerator = () => {
   });
 
   const handleAddComponent = () => {
-    setInputList([
-      ...inputList,
-      <Event key={inputList.length} id={inputList.length} />,
+    setEvents((prevEvents) => [
+      ...prevEvents,
+      {
+        id: prevEvents.length,
+        eventName: "",
+        eventDesc: "",
+        eventDate: dayjs(),
+      },
     ]);
+    setFocusedInput(focusedInput + 1);
+    setFocusedItem("name");
   };
 
-  const saveEvents = (e) => {
-    //  console.log(state.eventDate);
-    //console.log("formatted", dayjs(state.eventDate.$d).format("YYYY-MM-DD"));
+  const handleInputChange = (id, property, value) => {
+    setEvents((prevEvents) =>
+      prevEvents.map((event) =>
+        event.id === id ? { ...event, [property]: value } : event
+      )
+    );
   };
 
   return (
     <>
       <ResponsiveContainer>
-        {inputList.map((component, index) => (
-          <div key={index}>{component}</div>
+        {events.map((event) => (
+          <div key={event.id}>
+            <Event
+              id={event.id}
+              eventName={event.eventName}
+              eventDesc={event.eventDesc}
+              eventDate={event.eventDate}
+              onInputChange={handleInputChange}
+              focusedInput={focusedInput}
+              setFocusedInput={setFocusedInput}
+              focusedItem={focusedItem}
+              setFocusedItem={setFocusedItem}
+            />
+          </div>
         ))}
       </ResponsiveContainer>
 
