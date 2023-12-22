@@ -1,7 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
 import ICSGenerator from "./component/ICSGenerator";
-import Test from "./component/Test";
 
 function App() {
   return (
