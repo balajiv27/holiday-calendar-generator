@@ -17,7 +17,7 @@ const stGen = (item) => {
     "\nEND:VEVENT";
 };
 
-export function txtGenerator(events) {
+export function iCSTextGenerator(events) {
   st = "";
   st =
     "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//Your Company//Your Calendar App//EN\nCALSCALE:GREGORIAN";
@@ -27,4 +27,4 @@ export function txtGenerator(events) {
   return st;
 }
 
-export default txtGenerator;
+export default iCSTextGenerator;

@@ -4,6 +4,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { styled } from "@mui/system";
+import { Button } from "@mui/material";
 
 const Event = ({
   id,
@@ -15,6 +16,7 @@ const Event = ({
   setFocusedInput,
   focusedItem,
   setFocusedItem,
+  deleteAt,
 }) => {
   const ResponsiveContainer = styled("div")({
     display: "flex",
@@ -78,6 +80,7 @@ const Event = ({
             onChange={(e) => handleItemChange("eventName", e.target.value)}
             onFocus={() => handleFocus("name")}
             autoFocus={focusedInput === id && focusedItem === "name"}
+            required
           />
           <TextField
             inputRef={inputEventDescRef}
@@ -99,6 +102,7 @@ const Event = ({
             onFocus={() => handleFocus("date")}
             autoFocus={focusedInput === id && focusedItem === "date"}
           />
+          <Button onClick={() => deleteAt(id)}>{id} Delete</Button>
         </LocalizationProvider>
       </ResponsiveContainer>
     </>
