@@ -102,7 +102,9 @@ const Event = ({
             onFocus={() => handleFocus("date")}
             autoFocus={focusedInput === id && focusedItem === "date"}
           />
-          <Button onClick={() => deleteAt(id)}>{id} Delete</Button>
+          <Button variant="outlined" onClick={() => deleteAt(id)}>
+            {id} Delete
+          </Button>
         </LocalizationProvider>
       </ResponsiveContainer>
     </>

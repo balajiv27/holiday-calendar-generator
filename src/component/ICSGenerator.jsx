@@ -119,13 +119,27 @@ const ICSGenerator = () => {
         ))}
       </ResponsiveContainer>
       <br />
-      <Button onClick={handleAddComponent}>Add a day</Button>
+      <div className="box">
+        <Button margin="10px" variant="outlined" onClick={handleAddComponent}>
+          Add a day
+        </Button>
 
-      <Button onClick={handleRemoveClick}>Remove a day</Button>
-      <Button onClick={handleSave}>Export </Button>
-      <Button onClick={() => console.log(events)}>print</Button>
-      <div>
-        <Toaster />
+        <Button
+          margin-right="10px"
+          variant="outlined"
+          onClick={handleRemoveClick}
+        >
+          Remove a day
+        </Button>
+        <Button variant="contained" onClick={handleSave}>
+          Export
+        </Button>
+        <Button variant="outlined" onClick={() => console.log(events)}>
+          print
+        </Button>
+        <div>
+          <Toaster />
+        </div>
       </div>
     </>
   );
