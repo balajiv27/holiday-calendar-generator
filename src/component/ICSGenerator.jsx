@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/system";
 import Event from "./Event";
 import { Button } from "@mui/material";
-import dayjs from "dayjs";
 import { saveAs } from "file-saver";
 import { iCSTextGenerator } from "../Utils/DateTimeUtil";
 import toast, { Toaster } from "react-hot-toast";
+import dayjs from "dayjs";
 
 const ICSGenerator = () => {
   const [events, setEvents] = useState([
@@ -30,22 +30,13 @@ const ICSGenerator = () => {
     },
   });
 
-  const handleAddComponent = () => {
-    setEvents((prevEvents) => [
-      ...prevEvents,
-      {
-        id: prevEvents.length,
-        eventName: "",
-        eventDesc: "",
-        eventDate: dayjs(),
-      },
-    ]);
-    setFocusedInput(focusedInput + 1);
-    setFocusedItem("name");
-    console.log(focusedInput);
-  };
+  useEffect(() => {
+    console.log("events", events);
+    console.log("le", events.length);
+  }, [events]);
 
   const handleRemoveClick = () => {
+    console.log("events.length === 1", events.length === 1);
     if (events.length === 1) {
       toast.error("There's only one event exists");
     } else {
@@ -87,6 +78,10 @@ const ICSGenerator = () => {
   };
 
   const deleteAt = (itemId) => {
+    if (events.length === 1) {
+      toast.error("There's only one event exists");
+      return;
+    }
     const copyArray = events.filter((x) => x.id !== itemId); //[...events];
 
     copyArray.forEach((item, index) => {
@@ -114,23 +109,21 @@ const ICSGenerator = () => {
               focusedItem={focusedItem}
               setFocusedItem={setFocusedItem}
               deleteAt={deleteAt}
+              setEvents={setEvents}
+              events={events}
             />
           </div>
         ))}
       </ResponsiveContainer>
       <br />
       <div className="box">
-        <Button margin="10px" variant="outlined" onClick={handleAddComponent}>
-          Add a day
-        </Button>
-
-        <Button
+        {/* <Button
           margin-right="10px"
           variant="outlined"
           onClick={handleRemoveClick}
         >
           Remove a day
-        </Button>
+        </Button> */}
         <Button variant="contained" onClick={handleSave}>
           Export
         </Button>

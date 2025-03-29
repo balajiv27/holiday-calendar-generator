@@ -1,3 +1,12 @@
+/* Add this CSS to apply a similar text style to all inputs */
+input {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: black;
+  /* Add any other desired styles */
+}
+
+/* Your existing CSS styles */
 .App {
   text-align: center;
 }
@@ -37,7 +46,7 @@
   }
 }
 
-.box{
+.box {
   display: flex;
   gap: 10px;
 }

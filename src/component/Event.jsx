@@ -3,8 +3,11 @@ import TextField from "@mui/material/TextField";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { styled } from "@mui/system";
-import { Button } from "@mui/material";
+import { border, styled } from "@mui/system";
+import dayjs from "dayjs";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 const Event = ({
   id,
@@ -17,6 +20,8 @@ const Event = ({
   focusedItem,
   setFocusedItem,
   deleteAt,
+  setEvents,
+  events,
 }) => {
   const ResponsiveContainer = styled("div")({
     display: "flex",
@@ -61,6 +66,21 @@ const Event = ({
     onInputChange(id, property, value);
   };
 
+  const handleAddComponent = () => {
+    setEvents((prevEvents) => [
+      ...prevEvents,
+      {
+        id: prevEvents.length,
+        eventName: "",
+        eventDesc: "",
+        eventDate: dayjs(),
+      },
+    ]);
+    setFocusedInput(focusedInput + 1);
+    setFocusedItem("name");
+    console.log(focusedInput);
+  };
+
   const handleFocus = (type) => {
     setFocusedInput(id);
     setFocusedItem(type);
@@ -102,9 +122,19 @@ const Event = ({
             onFocus={() => handleFocus("date")}
             autoFocus={focusedInput === id && focusedItem === "date"}
           />
-          <Button variant="outlined" onClick={() => deleteAt(id)}>
-            {id} Delete
-          </Button>
+          {events.length}
+          {id}
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            {events.length == id + 1 && (
+              <IconButton aria-label="delete" onClick={handleAddComponent}>
+                <AddBoxIcon fontSize="large"></AddBoxIcon>
+              </IconButton>
+            )}
+            <IconButton aria-label="delete" onClick={() => deleteAt(id)}>
+              {/* {id} -  */}
+              <DeleteIcon fontSize="large"></DeleteIcon>
+            </IconButton>
+          </div>
         </LocalizationProvider>
       </ResponsiveContainer>
     </>
