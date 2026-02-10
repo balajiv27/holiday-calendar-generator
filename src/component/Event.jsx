@@ -1,9 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { border, styled } from "@mui/system";
+import { styled } from "@mui/system";
 import dayjs from "dayjs";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -76,9 +76,8 @@ const Event = ({
         eventDate: dayjs(),
       },
     ]);
-    setFocusedInput(focusedInput + 1);
+    setFocusedInput(id + 1);
     setFocusedItem("name");
-    console.log(focusedInput);
   };
 
   const handleFocus = (type) => {
@@ -87,7 +86,7 @@ const Event = ({
   };
 
   return (
-    <>
+    <div className="event-card" style={{ animationDelay: `${id * 0.1}s` }}>
       <ResponsiveContainer>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <TextField
@@ -113,31 +112,38 @@ const Event = ({
             onFocus={() => handleFocus("desc")}
             autoFocus={focusedInput === id && focusedItem === "desc"}
           />
-          <DatePicker
+          <DateTimePicker
             inputRef={inputEventDateRef}
-            label="Event Date"
+            label="Event Date & Time"
             name="eventDate"
             value={eventDate}
             onChange={(date) => handleItemChange("eventDate", date)}
             onFocus={() => handleFocus("date")}
-            autoFocus={focusedInput === id && focusedItem === "date"}
+            slotProps={{ textField: { variant: 'outlined' } }}
           />
-          {events.length}
-          {id}
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            {events.length == id + 1 && (
-              <IconButton aria-label="delete" onClick={handleAddComponent}>
-                <AddBoxIcon fontSize="large"></AddBoxIcon>
+            {events.length === id + 1 && (
+              <IconButton 
+                className="add-icon"
+                aria-label="add event" 
+                onClick={handleAddComponent}
+                title="Add new event"
+              >
+                <AddBoxIcon fontSize="large" />
               </IconButton>
             )}
-            <IconButton aria-label="delete" onClick={() => deleteAt(id)}>
-              {/* {id} -  */}
-              <DeleteIcon fontSize="large"></DeleteIcon>
+            <IconButton 
+              className="delete-icon"
+              aria-label="delete event" 
+              onClick={() => deleteAt(id)}
+              title="Delete this event"
+            >
+              <DeleteIcon fontSize="large" />
             </IconButton>
           </div>
         </LocalizationProvider>
       </ResponsiveContainer>
-    </>
+    </div>
   );
 };
 
