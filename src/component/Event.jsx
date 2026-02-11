@@ -26,12 +26,19 @@ const Event = ({
   const ResponsiveContainer = styled("div")({
     display: "flex",
     flexDirection: "column",
-    gap: "10px",
+    gap: "15px",
     "@media (min-width: 600px)": {
       flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "center",
+      "& > *": {
+        flex: "1 1 200px",
+      },
+    },
+    "@media (min-width: 1200px)": {
+      flexWrap: "nowrap",
       "& > *": {
         flex: 1,
-        margin: "0 5px",
       },
     },
   });

@@ -41,11 +41,23 @@
 /* Event Container */
 .events-container {
   width: 100%;
-  max-width: 1200px;
-  display: flex;
-  flex-direction: column;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
   animation: fadeIn 0.8s ease 0.2s backwards;
+}
+
+@media (min-width: 768px) {
+  .events-container {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+}
+
+@media (min-width: 1400px) {
+  .events-container {
+    grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+  }
 }
 
 /* Event Card */
@@ -58,6 +70,9 @@
   padding: 24px;
   transition: all var(--transition-normal);
   animation: slideIn 0.5s ease backwards;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .event-card:hover {
@@ -76,6 +91,7 @@
   margin-top: 30px;
   padding: 20px;
   animation: fadeIn 1s ease 0.4s backwards;
+  width: 100%;
 }
 
 /* Custom Button Styles */
@@ -90,6 +106,7 @@
   box-shadow: var(--shadow-md) !important;
   transition: all var(--transition-normal) !important;
   border: none !important;
+  min-width: 200px;
 }
 
 .MuiButton-contained:hover {
@@ -107,6 +124,7 @@
   font-size: 1rem !important;
   background: transparent !important;
   transition: all var(--transition-normal) !important;
+  min-width: 200px;
 }
 
 .MuiButton-outlined:hover {
@@ -118,6 +136,7 @@
 /* TextField Styles */
 .MuiTextField-root {
   flex: 1;
+  width: 100%;
 }
 
 .MuiOutlinedInput-root {
@@ -197,7 +216,7 @@
   }
   
   .header-content h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   
   .header-content p {
@@ -210,11 +229,13 @@
   
   .box {
     flex-direction: column;
+    align-items: stretch;
   }
   
   .MuiButton-contained,
   .MuiButton-outlined {
     width: 100%;
+    min-width: unset;
   }
 }
 
