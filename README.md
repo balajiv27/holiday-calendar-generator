@@ -1,70 +1,78 @@
-# Getting Started with Create React App
+# Holiday Calendar Generator
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React web app to create, manage, and export calendar events as `.ics` files — compatible with Google Calendar, Apple Calendar, and Outlook.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Create events** with name, description, and date
+- **All-day or timed events** — toggle per event; all-day events use the correct `DTSTART;VALUE=DATE` ICS format
+- **Event colors** — assign one of 8 colors per event (rendered in Apple Calendar via `X-APPLE-CALENDAR-COLOR`)
+- **6-country holiday templates** — quick-add buttons for US, UK, India, Canada, Germany, and France; moveable feasts (Easter, Thanksgiving, etc.) are computed accurately for the current year
+- **Import existing ICS files** — parses events including all-day flag and Apple color metadata
+- **Export to ICS** — downloads a standards-compliant `holidays.ics` file
 
-### `npm start`
+## How to Use
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Creating Events
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Enter an **Event Name** (required) and optional **Description**
+2. Pick a date with the date picker
+3. Toggle **All day** on for holidays/anniversaries, or off for timed meetings
+4. Click a color swatch to assign a color (visible in Apple Calendar)
+5. Click **+** to add another event row
 
-### `npm test`
+### Using Holiday Templates
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. In the **Quick Add Holidays** section, pick a country from the dropdown
+2. Click any chip (e.g. `Christmas · Dec 25`) to instantly add that holiday
+3. Templates default to all-day and use the current year's correct dates
+4. Moveable holidays (Easter, Good Friday, Thanksgiving, etc.) are calculated automatically
 
-### `npm run build`
+**Supported countries:** 🇺🇸 United States · 🇬🇧 United Kingdom · 🇮🇳 India · 🇨🇦 Canada · 🇩🇪 Germany · 🇫🇷 France
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Importing an Existing ICS File
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Click **Import ICS** and select an `.ics` file
+2. Events are parsed and added to the list for editing
+3. All-day events and Apple Calendar color tags are preserved on round-trip
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Exporting
 
-### `npm run eject`
+1. Click **Export Calendar** to download `holidays.ics`
+2. Import into your calendar app:
+   - **Google Calendar:** Settings → Import → upload the file
+   - **Apple Calendar:** File → Import
+   - **Outlook:** File → Open & Export → Import/Export
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ICS Color Support
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| Calendar App | Color Support |
+|---|---|
+| Apple Calendar | ✅ Full (via `X-APPLE-CALENDAR-COLOR`) |
+| Google Calendar | ❌ Ignores event-level color in ICS |
+| Outlook | ❌ Not supported |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Local Development
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```bash
+npm install
+npm start
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm run build   # production build
+npm test        # run tests
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Tech Stack
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Package | Purpose |
+|---|---|
+| React 18 | UI framework |
+| Material UI v5 | Component library |
+| @mui/x-date-pickers v6 | DatePicker / DateTimePicker |
+| dayjs | Date parsing and formatting |
+| file-saver | ICS file download |
+| react-hot-toast | Toast notifications |
