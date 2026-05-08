@@ -1,132 +1,117 @@
 import React, { useState } from "react";
-import { styled } from "@mui/system";
 import Event from "./Event";
-import { Button } from "@mui/material";
-import dayjs from "dayjs";
+import HolidayTemplates from "./HolidayTemplates";
+import ImportICS from "./ImportICS";
+import { Button, Box } from "@mui/material";
 import { saveAs } from "file-saver";
 import { iCSTextGenerator } from "../Utils/DateTimeUtil";
 import toast, { Toaster } from "react-hot-toast";
+import dayjs from "dayjs";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+
+const newEvent = (id = 0) => ({
+  id,
+  eventName: "",
+  eventDesc: "",
+  eventDate: dayjs(),
+  isFullDay: true,
+  color: "",
+});
 
 const ICSGenerator = () => {
-  const [events, setEvents] = useState([
-    { id: 0, eventName: "", eventDesc: "", eventDate: dayjs() },
-  ]);
+  const [events, setEvents] = useState([newEvent(0)]);
   const [focusedInput, setFocusedInput] = useState(null);
   const [focusedItem, setFocusedItem] = useState(null);
 
-  const ResponsiveContainer = styled("div")({
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    "@media (min-width: 600px)": {
-      flexDirection: "row",
-      "& > *": {
-        flex: 1,
-        margin: "0 5px",
-      },
-    },
-    "@media (min-width: 1024px)": {
-      flexDirection: "column",
-    },
-  });
-
-  const handleAddComponent = () => {
-    setEvents((prevEvents) => [
-      ...prevEvents,
-      {
-        id: prevEvents.length,
-        eventName: "",
-        eventDesc: "",
-        eventDate: dayjs(),
-      },
-    ]);
-    setFocusedInput(focusedInput + 1);
-    setFocusedItem("name");
-    console.log(focusedInput);
-  };
-
-  const handleRemoveClick = () => {
-    if (events.length === 1) {
-      toast.error("There's only one event exists");
-    } else {
-      const copyArr = [...events];
-      copyArr.pop();
-      setEvents(copyArr);
-
-      setFocusedInput(focusedInput - 1);
-      setFocusedItem("name");
-    }
-  };
-
   const handleInputChange = (id, property, value) => {
-    setEvents((prevEvents) =>
-      prevEvents.map((event) =>
-        event.id === id ? { ...event, [property]: value } : event
-      )
+    setEvents((prev) =>
+      prev.map((event) => (event.id === id ? { ...event, [property]: value } : event))
     );
   };
 
-  const handleSave = () => {
-    let isEmpty = false;
-    events.forEach((item) => {
-      if (item.eventName === "") {
-        isEmpty = true;
+  const handleAddTemplate = (template) => {
+    setEvents((prev) => {
+      if (prev.length === 1 && prev[0].eventName === "") {
+        return [{ ...template, id: 0 }];
       }
+      return [...prev, { ...template, id: prev.length }];
     });
+    toast.success(`${template.eventName} added!`);
+  };
 
-    if (!isEmpty) {
-      var icsData = iCSTextGenerator(events);
-      // Create a Blob object from the iCalendar data
-      const blob = new Blob([icsData], { type: "text/calendar;charset=utf-8" });
+  const handleImportEvents = (importedEvents) => {
+    setEvents((prev) => {
+      const base = prev.length === 1 && prev[0].eventName === "" ? [] : prev;
+      return [...base, ...importedEvents].map((item, i) => ({ ...item, id: i }));
+    });
+  };
 
-      // Save the .ics file to the browser
-      saveAs(blob, "holidays.ics");
-    } else {
-      toast.error("Event name is required for all the events");
+  const handleSave = () => {
+    if (events.some((e) => !e.eventName.trim())) {
+      toast.error("Event name is required for all events");
+      return;
     }
+    const blob = new Blob([iCSTextGenerator(events)], { type: "text/calendar;charset=utf-8" });
+    saveAs(blob, "holidays.ics");
+    toast.success("Calendar exported successfully!");
   };
 
   const deleteAt = (itemId) => {
-    const copyArray = events.filter((x) => x.id !== itemId); //[...events];
-
-    copyArray.forEach((item, index) => {
-      item.id = index;
-    });
-
-    //copyArray.splice(itemId, 1);
-    console.log(copyArray);
-    setEvents(copyArray);
+    if (events.length === 1) {
+      toast.error("At least one event is required");
+      return;
+    }
+    setEvents(
+      events.filter((x) => x.id !== itemId).map((item, i) => ({ ...item, id: i }))
+    );
+    toast.success("Event removed");
   };
 
   return (
     <>
-      <ResponsiveContainer>
-        {events.map((event, index) => (
-          <div key={event.id}>
-            <Event
-              id={event.id}
-              eventName={event.eventName}
-              eventDesc={event.eventDesc}
-              eventDate={event.eventDate}
-              onInputChange={handleInputChange}
-              focusedInput={focusedInput}
-              setFocusedInput={setFocusedInput}
-              focusedItem={focusedItem}
-              setFocusedItem={setFocusedItem}
-              deleteAt={deleteAt}
-            />
-          </div>
+      <div className="events-container">
+        {events.map((event) => (
+          <Event
+            key={event.id}
+            {...event}
+            onInputChange={handleInputChange}
+            focusedInput={focusedInput}
+            setFocusedInput={setFocusedInput}
+            focusedItem={focusedItem}
+            setFocusedItem={setFocusedItem}
+            deleteAt={deleteAt}
+            setEvents={setEvents}
+            events={events}
+          />
         ))}
-      </ResponsiveContainer>
-      <br />
-      <Button onClick={handleAddComponent}>Add a day</Button>
-
-      <Button onClick={handleRemoveClick}>Remove a day</Button>
-      <Button onClick={handleSave}>Export </Button>
-      <Button onClick={() => console.log(events)}>print</Button>
-      <div>
-        <Toaster />
       </div>
+
+      <Box className="box">
+        <ImportICS onImport={handleImportEvents} />
+        <Button
+          variant="contained"
+          onClick={handleSave}
+          startIcon={<FileDownloadIcon />}
+          size="large"
+        >
+          Export Calendar
+        </Button>
+      </Box>
+
+      <HolidayTemplates onAddTemplate={handleAddTemplate} />
+
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            background: "#1a1a2e",
+            color: "#fff",
+            border: "1px solid var(--border-color)",
+            fontFamily: "'Inter', sans-serif",
+            fontSize: "0.875rem",
+          },
+        }}
+      />
     </>
   );
 };

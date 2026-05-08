@@ -1,38 +1,257 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  min-height: 100vh;
+  padding: 12px;
+  animation: fadeIn 0.6s ease;
 }
 
 .App-header {
-  background-color: white;
-  min-height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 16px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 16px;
+}
+
+.header-content {
+  text-align: center;
+  animation: slideIn 0.8s ease;
+}
+
+.header-content h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  background: var(--primary-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.5px;
+}
+
+.header-content p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin: 0;
+  font-weight: 400;
+}
+
+/* Event Container */
+.events-container {
+  width: 100%;
+  max-width: 1400px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  animation: fadeIn 0.8s ease 0.2s backwards;
+}
+
+@media (min-width: 768px) {
+  .events-container {
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  }
+}
+
+@media (min-width: 1400px) {
+  .events-container {
+    grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
+  }
+}
+
+/* Event Card */
+.event-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-md);
+  padding: 14px 16px;
+  transition: all var(--transition-normal);
+  animation: slideIn 0.5s ease backwards;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(102, 126, 234, 0.3);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+/* Action Buttons Container */
+.box {
+  display: flex;
+  gap: 12px;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  padding: 8px 0;
+  animation: fadeIn 1s ease 0.4s backwards;
+  width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+/* Custom Button Styles */
+.MuiButton-contained {
+  background: var(--primary-gradient) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 10px 28px !important;
+  border-radius: var(--border-radius-sm) !important;
+  text-transform: none !important;
+  font-size: 0.95rem !important;
+  box-shadow: var(--shadow-md) !important;
+  transition: all var(--transition-normal) !important;
+  border: none !important;
+  min-width: 180px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.MuiButton-contained:hover {
+  box-shadow: var(--shadow-lg), var(--shadow-glow) !important;
+  transform: translateY(-2px) !important;
+}
+
+.MuiButton-outlined {
+  border: 2px solid var(--primary-color) !important;
+  color: var(--primary-light) !important;
+  font-weight: 600 !important;
+  padding: 8px 28px !important;
+  border-radius: var(--border-radius-sm) !important;
+  text-transform: none !important;
+  font-size: 0.95rem !important;
+  background: transparent !important;
+  transition: all var(--transition-normal) !important;
+  min-width: 180px;
+}
+
+.MuiButton-outlined:hover {
+  background: rgba(102, 126, 234, 0.1) !important;
+  border-color: var(--primary-light) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* TextField Styles */
+.MuiTextField-root {
+  flex: 1;
+  width: 100%;
+}
+
+.MuiOutlinedInput-root {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border-radius: var(--border-radius-sm) !important;
+  transition: all var(--transition-normal) !important;
+}
+
+.MuiOutlinedInput-root:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused {
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--border-color) !important;
+  transition: all var(--transition-normal) !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: rgba(102, 126, 234, 0.4) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--primary-color) !important;
+  border-width: 2px !important;
+}
+
+.MuiInputLabel-root {
+  color: var(--text-secondary) !important;
+}
+
+.MuiInputLabel-root.Mui-focused {
+  color: var(--primary-light) !important;
+}
+
+.MuiInputBase-input {
+  color: var(--text-primary) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Icon Button Styles */
+.MuiIconButton-root {
+  color: var(--text-secondary) !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.MuiIconButton-root:hover {
+  color: var(--primary-light) !important;
+  background: rgba(102, 126, 234, 0.1) !important;
+  transform: scale(1.1) !important;
+}
+
+.delete-icon:hover {
+  color: var(--accent-color) !important;
+}
+
+.add-icon:hover {
+  color: var(--success-color) !important;
+}
+
+/* DatePicker Styles */
+.MuiPickersDay-root {
+  color: var(--text-primary) !important;
+}
+
+.MuiPickersDay-root.Mui-selected {
+  background: var(--primary-gradient) !important;
+}
+
+/* Switch styles */
+.MuiSwitch-switchBase.Mui-checked {
+  color: var(--primary-light) !important;
+}
+
+.MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track {
+  background-color: var(--primary-color) !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .App-header {
+    padding: 12px 10px 20px;
+    gap: 12px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .header-content h1 {
+    font-size: 1.6rem;
   }
+
+  .header-content p {
+    font-size: 0.875rem;
+  }
+
+  .event-card {
+    padding: 12px;
+  }
+
+  .box {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .MuiButton-contained,
+  .MuiButton-outlined {
+    width: 100% !important;
+    min-width: unset !important;
+  }
+}
+
+@keyframes loading {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading {
+  animation: loading 1s linear infinite;
 }
