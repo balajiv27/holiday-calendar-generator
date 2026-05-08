@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/holiday-calendar-generator/static/css/main.45c43f20.css",
+    "main.js": "/holiday-calendar-generator/static/js/main.0fb3c598.js",
+    "static/js/787.8d861c6d.chunk.js": "/holiday-calendar-generator/static/js/787.8d861c6d.chunk.js",
+    "index.html": "/holiday-calendar-generator/index.html",
+    "main.45c43f20.css.map": "/holiday-calendar-generator/static/css/main.45c43f20.css.map",
+    "main.0fb3c598.js.map": "/holiday-calendar-generator/static/js/main.0fb3c598.js.map",
+    "787.8d861c6d.chunk.js.map": "/holiday-calendar-generator/static/js/787.8d861c6d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.45c43f20.css",
+    "static/js/main.0fb3c598.js"
+  ]
+}
