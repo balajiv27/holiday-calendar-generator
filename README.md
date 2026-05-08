@@ -1,5 +1,7 @@
 # Holiday Calendar Generator
 
+**Live demo:** [balajiv27.github.io/holiday-calendar-generator](https://balajiv27.github.io/holiday-calendar-generator)
+
 A React web app to create, manage, and export calendar events as `.ics` files — compatible with Google Calendar, Apple Calendar, and Outlook.
 
 ## Features
